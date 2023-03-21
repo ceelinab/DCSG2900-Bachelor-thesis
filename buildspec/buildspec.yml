@@ -1,7 +1,13 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: latest
+  pre_build:
+    commands:
+      - npm install
+      - npm update
   build:
     commands:
-       - ls
-# temp ls bytter ut i faktisk build
+       - npm run test:server

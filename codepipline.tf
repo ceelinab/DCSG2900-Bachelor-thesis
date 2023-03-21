@@ -9,7 +9,7 @@ resource "aws_codebuild_project" "build" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:1.0"
+    image                       = "aws/codebuild/standard:6.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
   }
@@ -42,8 +42,8 @@ resource "aws_codepipeline" "cicd_pipeline" {
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.code-connection.arn
-        FullRepositoryId = "SebastianHestsveen/asigment-1"
-        BranchName       = "main"
+        FullRepositoryId = "SebastianHestsveen/juice-shop"
+        BranchName       = "master"
       }
     }
   }
@@ -62,7 +62,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
       }
     }
   }
-  
+  /*
   stage {
     name = "Deploy"
 
