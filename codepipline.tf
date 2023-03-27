@@ -1,5 +1,5 @@
-resource "aws_codebuild_project" "build" {
-  name         = "build"
+resource "aws_codebuild_project" "build2" {
+  name         = "build2"
   description  = "test build"
   service_role = aws_iam_role.tf-codebuild-role.arn
 
@@ -23,7 +23,7 @@ resource "aws_codebuild_project" "build" {
 
 resource "aws_codepipeline" "cicd_pipeline" {
 
-  name     = "code-pipline"
+  name     = "code-pipline2"
   role_arn = aws_iam_role.codepipline-role.arn
 
   artifact_store {
@@ -43,7 +43,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.code-connection.arn
         FullRepositoryId = "theaurne/juice-shop"
-        BranchName       = "main"
+        BranchName       = "master"
       }
     }
   }
