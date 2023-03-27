@@ -4,8 +4,8 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
-  /**
-    snyk = {
+
+    snyk{
       source = "snyk/snyk"
       version = ">= 1.0.0"
     }
@@ -22,6 +22,7 @@ provider "aws" {
 
 /**
 
+/**
 provider "snyk" {
   # Enter your Snyk API token here
   token = "your-snyk-api-token"
