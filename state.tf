@@ -4,8 +4,8 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
-
-    snyk{
+/**
+    snyk = {
       source = "snyk/snyk"
       version = ">= 1.0.0"
     }
