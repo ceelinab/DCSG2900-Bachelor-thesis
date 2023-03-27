@@ -42,8 +42,8 @@ resource "aws_codepipeline" "cicd_pipeline" {
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.code-connection.arn
-        FullRepositoryId = "SebastianHestsveen/juice-shop"
-        BranchName       = "master"
+        FullRepositoryId = "theaurne/juice-shop"
+        BranchName       = "main"
       }
     }
   }
