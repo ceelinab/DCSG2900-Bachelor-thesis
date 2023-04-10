@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "tf-cicd-pipeline-policies" {
   }
   statement {
     sid       = ""
-    actions   = ["s3:*", "codebuild:*"]
+    actions   = ["s3:*", "codebuild:*", ]
     resources = ["*"]
     effect    = "Allow"
   }

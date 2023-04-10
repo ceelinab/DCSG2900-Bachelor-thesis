@@ -1,6 +1,6 @@
-resource "aws_codebuild_project" "build2" {
-  name         = "build2"
-  description  = "test build"
+resource "aws_codebuild_project" "build" {
+  name         = var.build_name
+  description  = var.build_desc
   service_role = aws_iam_role.tf-codebuild-role.arn
 
   artifacts {
@@ -21,9 +21,11 @@ resource "aws_codebuild_project" "build2" {
 }
 
 
+
+
 resource "aws_codepipeline" "cicd_pipeline" {
 
-  name     = "code-pipline2"
+  name     = var.pipeline_name
   role_arn = aws_iam_role.codepipline-role.arn
 
   artifact_store {
@@ -42,8 +44,8 @@ resource "aws_codepipeline" "cicd_pipeline" {
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.code-connection.arn
-        FullRepositoryId = "theaurne/juice-shop"
-        BranchName       = "master"
+        FullRepositoryId = var.git_repo
+        BranchName       = var.git_branch
       }
     }
   }
@@ -62,41 +64,4 @@ resource "aws_codepipeline" "cicd_pipeline" {
       }
     }
   }
-  /*
-  stage {
-    name = "Deploy"
-
-    action {
-      name            = "Deploy"
-      category        = "Deploy"
-      owner           = "AWS"
-      provider        = "CodeDeploy"
-      input_artifacts = ["build_output"]
-      version         = "1"
-
-      configuration = {
-        ActionMode     = "REPLACE_ON_FAILURE"
-        Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
-        OutputFileName = "CreateStackOutput.json"
-        StackName      = "MyStack"
-        TemplatePath   = "build_output::sam-templated.yaml"
-      }
-    }
-  }
-  /*
-    stage {
-        name ="Deploy"
-        action{
-            name = "Deploy"
-            category = "Build"
-            provider = "CodeBuild"
-            version = "1"
-            owner = "AWS"
-            input_artifacts = ["tf-code"]
-            configuration = {
-                ProjectName = "tf-cicd-apply"
-            }
-        }
-    }*/
-
 }
