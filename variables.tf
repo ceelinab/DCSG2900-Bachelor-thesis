@@ -32,3 +32,8 @@ variable "deployment_config_name"{
     type = string
     default = "deploy-tf-cicd"
 }
+
+variable "deployment_platform"{
+    type = string
+    default = "EC2"
+}
