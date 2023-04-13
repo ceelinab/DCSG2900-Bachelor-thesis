@@ -37,3 +37,8 @@ variable "deployment_platform"{
     type = string
     default = "EC2"
 }
+
+variable "deploy_group_name"{
+    type = string 
+    default = "deploy_group1"
+}
