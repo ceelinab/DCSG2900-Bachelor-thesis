@@ -27,3 +27,8 @@ variable "bucket_name"{
     type = string
     default = "artifact-bucket-thea2"
 }
+
+variable "deployment_config_name"{
+    type = string
+    default = "deploy-tf-cicd"
+}
