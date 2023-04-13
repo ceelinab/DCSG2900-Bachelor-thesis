@@ -88,3 +88,31 @@ resource "aws_iam_role_policy_attachment" "tf-cicd-codebuild-attachment2" {
   policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
   role       = aws_iam_role.tf-codebuild-role.id
 }
+
+#mangler en rolle
+
+resource "aws_iam_role" "codedeploy-role" {
+  name = "codedeploy-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "ec2.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "codedeploy-role-attachment1" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+  role       = aws_iam_role.codedeploy-role.id
+}
+
+resource "aws_iam_role_policy_attachment" "codedeploy-role-attachment2" {
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
+  role = aws_iam_role.codedeploy-role.id
+}
