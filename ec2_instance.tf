@@ -4,8 +4,12 @@ resource "aws_instance" "test_instance"{
     key_name = var.instance_key
 
     network_interface {
-        network_interface_id = aws_network_interface.foo.id
+        network_interface_id = aws_network_interface.interface_network.id
         device_index         = 0
+    }
+
+    tags = {
+      "Name" = "test_instance"
     }
 
     user_data = <<HEREDOC

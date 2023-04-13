@@ -8,7 +8,7 @@ resource "aws_subnet" "my_subnet" {
   availability_zone = "eu-north-1a"
 }
 
-resource "aws_network_interface" "foo" {
+resource "aws_network_interface" "interface_network" {
   subnet_id   = aws_subnet.my_subnet.id
   private_ips = ["172.16.10.100"]
 }
