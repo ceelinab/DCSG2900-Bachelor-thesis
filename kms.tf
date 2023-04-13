@@ -1,8 +1,8 @@
 resource "aws_kms_key" "pipeline_key" {
-  description               = "KMS key for signing pipeline artifacts"
-  customer_master_key_spec  = "SYMMETRIC_DEFAULT"
-  key_usage                 = "ENCRYPT_DECRYPT"
-  is_enabled                = true
+  description              = "KMS key for signing pipeline artifacts"
+  customer_master_key_spec = "SYMMETRIC_DEFAULT"
+  key_usage                = "ENCRYPT_DECRYPT"
+  is_enabled               = true
 
   tags = {
     Name = "pipeline_key"

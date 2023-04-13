@@ -99,7 +99,7 @@ resource "aws_iam_role" "codedeploy-role" {
       {
         "Effect" : "Allow",
         "Principal" : {
-          "Service" : "ec2.amazonaws.com"
+          "Service" : "codedeploy.amazonaws.com"
         },
         "Action" : "sts:AssumeRole"
       }
@@ -114,5 +114,30 @@ resource "aws_iam_role_policy_attachment" "codedeploy-role-attachment1" {
 
 resource "aws_iam_role_policy_attachment" "codedeploy-role-attachment2" {
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
-  role = aws_iam_role.codedeploy-role.id
+  role       = aws_iam_role.codedeploy-role.id
+}
+
+resource "aws_iam_role" "ec2-role" {
+  name = "ec2-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "sts:AssumeRole"
+        ],
+        "Principal" : {
+          "Service" : [
+            "ec2.amazonaws.com"
+          ]
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "codedeploy-role-attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  role       = aws_iam_role.codedeploy-role.id
 }
