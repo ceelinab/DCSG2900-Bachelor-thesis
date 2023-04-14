@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "build" {
-  name         = var.bucket_name
+  name         = var.build_name
   description  = var.build_desc
   service_role = aws_iam_role.tf-codebuild-role.arn
 
