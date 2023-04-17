@@ -35,7 +35,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
       owner           = "AWS"
       input_artifacts = ["source_output"]
       configuration = {
-        ProjectName = "build2"
+        ProjectName = "build"
       }
     }
   }

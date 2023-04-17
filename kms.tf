@@ -10,6 +10,6 @@ resource "aws_kms_key" "pipeline_key" {
 }
 
 resource "aws_kms_alias" "key_alias" {
-  name          = "alias/pipeline-key"
+  name          = "alias/pipeline-key2"
   target_key_id = aws_kms_key.pipeline_key.key_id
 }
