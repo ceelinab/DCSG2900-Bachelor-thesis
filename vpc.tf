@@ -33,3 +33,10 @@ resource "aws_security_group" "network-security" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_internet_gateway" "gateway" {
+  vpc_id = aws_vpc.my_vpc.id
+  tags = {
+    name = "vpc_gateway"
+  }
+}

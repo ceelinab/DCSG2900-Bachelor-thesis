@@ -15,17 +15,18 @@ resource "aws_instance" "test_instance" {
 #dns hostnames
   user_data = <<-EOF
         #!/bin/bash
-        echo "test1"
-        echo "test2"
+        echo "start codedeploy agenet install"
         sudo yum update -y
-        echo "test3"
         sudo yum install -y ruby
         sudo yum install -y aws-cli
-        sudo yum install -y aws-codedeploy-agent
+        wget https://aws-codedeploy-eu-north-1.s3.eu-north-1.amazonaws.com/latest/install
+        chmod +x ./install
+        sudo ./install auto
         sudo service codedeploy-agent status
-        echo "test4"
+        echo "agent instald"
     EOF
   /*
+  #aws-codedeploy-agent
     user_data = <<HEREDOC
     #!/bin/bash
 
@@ -46,3 +47,18 @@ resource "aws_iam_instance_profile" "instance_profile" {
   name = "instance_profile"
   role = aws_iam_role.ec2-role.name
 }
+/*
+
+aws-codedeploy-eu-north-1
+
+	eu-north-1
+
+  inter net gate way i riktig netverk å asosiere den
+
+  internet gate way
+
+  routing tabel i subent
+
+  wget https://aws-codedeploy-eu-north-1.s3.eu-north-1.amazonaws.com/latest/install
+
+  */
