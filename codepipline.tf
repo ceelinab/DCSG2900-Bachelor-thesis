@@ -1,29 +1,6 @@
-resource "aws_codebuild_project" "build" {
-  name         = "build"
-  description  = "test build"
-  service_role = aws_iam_role.tf-codebuild-role.arn
-
-  artifacts {
-    type = "CODEPIPELINE"
-  }
-
-  environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:6.0"
-    type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "CODEBUILD"
-  }
-
-  source {
-    type      = "CODEPIPELINE"
-    buildspec = file("buildspec/buildspec.yml")
-  }
-}
-
-
 resource "aws_codepipeline" "cicd_pipeline" {
 
-  name     = "code-pipline"
+  name     = var.pipeline_name
   role_arn = aws_iam_role.codepipline-role.arn
 
   artifact_store {
@@ -42,8 +19,8 @@ resource "aws_codepipeline" "cicd_pipeline" {
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.code-connection.arn
-        FullRepositoryId = "SebastianHestsveen/juice-shop"
-        BranchName       = "master"
+        FullRepositoryId = var.git_repo
+        BranchName       = var.git_branch
       }
     }
   }
@@ -62,7 +39,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
       }
     }
   }
-  /*
+
   stage {
     name = "Deploy"
 
@@ -71,32 +48,13 @@ resource "aws_codepipeline" "cicd_pipeline" {
       category        = "Deploy"
       owner           = "AWS"
       provider        = "CodeDeploy"
-      input_artifacts = ["build_output"]
+      input_artifacts = ["source_output"]
       version         = "1"
 
       configuration = {
-        ActionMode     = "REPLACE_ON_FAILURE"
-        Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
-        OutputFileName = "CreateStackOutput.json"
-        StackName      = "MyStack"
-        TemplatePath   = "build_output::sam-templated.yaml"
+        ApplicationName     = aws_codedeploy_app.codedeploy.name
+        DeploymentGroupName = var.deploy_group_name
       }
     }
   }
-  /*
-    stage {
-        name ="Deploy"
-        action{
-            name = "Deploy"
-            category = "Build"
-            provider = "CodeBuild"
-            version = "1"
-            owner = "AWS"
-            input_artifacts = ["tf-code"]
-            configuration = {
-                ProjectName = "tf-cicd-apply"
-            }
-        }
-    }*/
-
 }
