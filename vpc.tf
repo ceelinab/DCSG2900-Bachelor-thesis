@@ -40,3 +40,21 @@ resource "aws_internet_gateway" "gateway" {
     name = "vpc_gateway"
   }
 }
+
+resource "aws_route_table" "routing" {
+  vpc_id = aws_vpc.my_vpc.id
+  tags = {
+    name = "gatewayrouter"
+  }
+}
+
+resource "aws_route" "routing" {
+  route_table_id = aws_route_table.routing.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.gateway.id
+}
+
+resource "aws_route_table_association" "public" {
+   subnet_id   = aws_subnet.my_subnet.id
+   route_table_id = aws_route_table.routing.id
+}
